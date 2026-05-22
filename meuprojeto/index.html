@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Meu Linktree</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container text-center">
+        <img src="profile.png" alt="Foto" class="avatar">
+        <h1 class="title">Luis Felipe</h1>
+        <p class="subtitle">Aluno | Tecnico Informatica</p>
+        <div class="links">
+            <a href="https://www.tiktok.com/@luis.felipe8108" class="btn btn-primary">Tiktok</a>
+            <a href="https://www.youtube.com/channel/UCiDiHtFzbF-_MjgdN-rK46A" class="btn btn-secondary">YouTube</a>
+            <a href="https://www.instagram.com/luisflp54/" class="btn btn-dark">Instagram</a>
+            <a href="https://www.webmotors.com.br/carros-usados/estoque/precoate.150000?utm_id=21291299702&utm_source=google&utm_medium=search&utm_campaign=generica_comprar_fundo_mar-aberto_sp&utm_term=700174388593&utm_content=164271877602&idcmp=s08%3Ac13%3A8dc4ed115e5949d7b4cd2e415f5c3acb&gclsrc=aw.ds&gad_source=1&gad_campaignid=21291299702&gbraid=0AAAAADhCf12ZIa9ePeVLpX37HCP7rtiB6&gclid=Cj0KCQjwiJvQBhCYARIsAMjts3Juq0Du7I5FZnkHmtYO-qfQmqaWlYX0nQ3jmdcZ3SOAyfp_vW24JboaAgv0EALw_wcB&tipoveiculo=carros-usados&anunciante=Concession%C3%A1ria%7CLoca%C3%A7%C3%A3o%20de%20Autom%C3%B3veis%7CLoja&o=1&page=1&precoate=150000" class="btn btn-WebMotors">WebMotors</a>
+              <a href="https://seminovos.com.br/" class="btn btn-Seminovos">Seminovos</a>
+               <a href="https://veiculos.fipe.org.br/" class="btn btn-TabelaFipe">TabelaFipe</a>
+                <a href="/https://www.toyota.com.br/ofertas/" class="btn btn-Toyota">Toyota</a>
+        </div>
+        <button class="btn btn-outline" onclick="toggleTheme()">
+            Alternar Tema
+        </button>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
+<!-- Música -->
+<audio id="musica">
+    <source src="musica.mp4" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+</audio>
+
+<!-- Botões -->
+<button class="play" onclick="tocarMusica()">
+    ▶ Tocar Música
+</button>
+
+<button class="pause" onclick="pausarMusica()">
+    ⏸ Pausar Música
+</button>
+
+<script>
+    // Pega o áudio
+    const musica = document.getElementById("musica");
+
+    // Função tocar
+    function tocarMusica(){
+        musica.play();
+    }
+
+    // Função pausar
+    function pausarMusica(){
+        musica.pause();
+    }
+</script>
