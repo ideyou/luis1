@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="pt-br" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carros de Luxo</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    body{
+      background: #070707;
+      color: white;
+    }
+
+    .hero{
+      background: linear-gradient(135deg, #000, #1a1a1a);
+      padding: 90px 20px;
+      text-align: center;
+      border-bottom: 2px solid red;
+    }
+
+    .hero h1{
+      font-size: 60px;
+      font-weight: bold;
+      color: #ff0000;
+      text-shadow: 0 0 20px red;
+    }
+
+    .hero p{
+      color: #bbb;
+      font-size: 18px;
+    }
+
+    .card{
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: 0.3s;
+    }
+
+    .card:hover{
+      transform: translateY(-10px);
+      box-shadow: 0 0 30px rgba(255,0,0,0.5);
+    }
+
+    .card-img-top{
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .btn-custom{
+      background: red;
+      border: none;
+      width: 100%;
+    }
+
+    .btn-custom:hover{
+      background: darkred;
+    }
+
+    footer{
+      text-align: center;
+      padding: 20px;
+      color: #aaa;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar navbar-dark bg-black shadow">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-danger">CARROS DE LUXO</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Super Carros</h1>
+  <p>Os carros mais luxuosos e rápidos do mundo</p>
+</section>
+
+<div class="container py-5">
+  <div class="row g-4">
+
+    <!-- LAMBORGHINI -->
+    <div class="col-md-4">
+      <div class="card p-2">
+        <img src="img/lamborghini-1920x1080-19505.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="text-danger">Lamborghini Aventador</h5>
+          <p>Motor V12 extremamente potente.</p>
+          <button class="btn btn-custom" onclick="mostrarInfo('Lamborghini','Aventador','https://www.lamborghini.com')">
+            Ver Detalhes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FERRARI -->
+    <div class="col-md-4">
+      <div class="card p-2">
+        <img src="img/ferrari-sf90-xx-1920x1080-13505.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="text-danger">Ferrari SF90</h5>
+          <p>Super esportivo híbrido.</p>
+          <button class="btn btn-custom" onclick="mostrarInfo('Ferrari','SF90 Stradale','https://www.ferrari.com')">
+            Ver Detalhes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUGATTI -->
+    <div class="col-md-4">
+      <div class="card p-2">
+        <img src="img/bugatti-chiron-1920x1080-24117.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="text-danger">Bugatti Chiron</h5>
+          <p>Um dos carros mais rápidos do mundo.</p>
+          <button class="btn btn-custom" onclick="mostrarInfo('Bugatti','Chiron','https://www.bugatti.com')">
+            Ver Detalhes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PORSCHE -->
+    <div class="col-md-4">
+      <div class="card p-2">
+        <img src="img/porsche-911-turbo-s-1920x1080-25774.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="text-danger">Porsche 911 Turbo</h5>
+          <p>Luxo e performance alemã.</p>
+          <button class="btn btn-custom" onclick="mostrarInfo('Porsche','911 Turbo','https://www.porsche.com')">
+            Ver Detalhes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MCLAREN -->
+    <div class="col-md-4">
+      <div class="card p-2">
+        <img src="img/mclaren-p1-hybrid-1920x1080-11047.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="text-danger">McLaren P1</h5>
+          <p>Supercarro híbrido de corrida.</p>
+          <button class="btn btn-custom" onclick="mostrarInfo('McLaren','P1','https://cars.mclaren.com')">
+            Ver Detalhes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BMW -->
+    <div class="col-md-4">
+      <div class="card p-2">
+        <img src="img/manhart-mh8-800-bmw-m8-competition-custom-tuning-1920x1080-7192.jpeg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="text-danger">BMW M8</h5>
+          <p>Luxo e potência esportiva.</p>
+          <button class="btn btn-custom" onclick="mostrarInfo('BMW','M8 Competition','https://www.bmw.com')">
+            Ver Detalhes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MERCEDES -->
+    <div class="col-md-4">
+      <div class="card p-2">
+        <img src="img/mercedes-amg-gt-black-series-2021-5k-1920x1080-7020.jpeg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="text-danger">Mercedes AMG GT</h5>
+          <p>Elegância e velocidade.</p>
+          <button class="btn btn-custom" onclick="mostrarInfo('Mercedes-Benz','AMG GT','https://www.mercedes-benz.com')">
+            Ver Detalhes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUDI -->
+    <div class="col-md-4">
+      <div class="card p-2">
+        <img src="img/audi-r8-coupe-v10-1920x1080-17095.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="text-danger">Audi R8</h5>
+          <p>Design agressivo V10.</p>
+          <button class="btn btn-custom" onclick="mostrarInfo('Audi','R8','https://www.audi.com')">
+            Ver Detalhes
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Carros de Luxo</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal fade" id="carModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Detalhes do Carro</h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <p><strong>Marca:</strong> <span id="marca"></span></p>
+        <p><strong>Modelo:</strong> <span id="modelo"></span></p>
+        <a id="link" href="#" target="_blank" class="btn btn-danger w-100">
+          Visitar Site Oficial
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  function mostrarInfo(marca, modelo, link) {
+    document.getElementById("marca").innerText = marca;
+    document.getElementById("modelo").innerText = modelo;
+    document.getElementById("link").href = link;
+
+    new bootstrap.Modal(document.getElementById('carModal')).show();
+  }
+</script>
+
+</body>
+</html>

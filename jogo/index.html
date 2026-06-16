@@ -1,0 +1,292 @@
+!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Corrida - Sem Bugs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #333;
+            padding-top: 20px;
+        }
+
+        /* Painel de informações */
+        .painel {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 40px;
+        }
+
+        /* Estrada: preta, com linhas brancas */
+        #estrada {
+            width: 400px;
+            height: 600px;
+            background-color: #000000;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid white;
+        }
+
+        /* Linhas brancas da estrada */
+        .linha {
+            position: absolute;
+            width: 10px;
+            height: 80px;
+            background-color: #ffffff;
+            left: 50%;
+            margin-left: -5px;
+            animation: movimentoLinha 1s linear infinite;
+        }
+
+        @keyframes movimentoLinha {
+            from { top: -80px; }
+            to { top: 600px; }
+        }
+
+        /* Carro do jogador */
+        #carro {
+            width: 50px;
+            height: 80px;
+            background-color: red;
+            position: absolute;
+            bottom: 20px;
+            left: 175px;
+            border-radius: 5px;
+            z-index: 10; /* Sempre fica por cima */
+        }
+
+        /* Obstáculos com cores variadas */
+        .obstaculo {
+            width: 50px;
+            height: 80px;
+            position: absolute;
+            top: -80px;
+            border-radius: 5px;
+        }
+
+        /* Mensagem de fim de jogo */
+        #mensagem {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+            z-index: 20;
+        }
+
+        #mensagem button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="painel">
+        <div>Pontuação: <span id="pontuacao">0</span></div>
+        <div>Meta: <span id="meta">100</span></div>
+    </div>
+
+    <div id="estrada">
+        <!-- Linhas da estrada -->
+        <div class="linha" style="animation-delay: 0s;"></div>
+        <div class="linha" style="animation-delay: 0.2s;"></div>
+        <div class="linha" style="animation-delay: 0.4s;"></div>
+        <div class="linha" style="animation-delay: 0.6s;"></div>
+        <div class="linha" style="animation-delay: 0.8s;"></div>
+
+        <div id="carro"></div>
+
+        <div id="mensagem">
+            <h2 id="textoMensagem"></h2>
+            <button onclick="reiniciarJogo()">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <script>
+        // Elementos do jogo
+        const estrada = document.getElementById('estrada');
+        const carro = document.getElementById('carro');
+        const pontuacaoEl = document.getElementById('pontuacao');
+        const metaEl = document.getElementById('meta');
+        const mensagemEl = document.getElementById('mensagem');
+        const textoMensagemEl = document.getElementById('textoMensagem');
+
+        // Variáveis do jogo
+        let posicaoCarro = 175;
+        let pontuacao = 0;
+        let meta = 100;
+        let velocidadeJogo = 6;
+        let jogoRodando = true;
+        let obstaculos = [];
+        let coresObstaculos = ['blue', 'yellow', 'green', 'purple', 'orange', 'pink', 'cyan', 'brown'];
+        let ultimoObstaculo = 0; // Controla tempo entre obstáculos para não bugar
+
+        // Controle do carro com as setas (sem travar)
+        document.addEventListener('keydown', (e) => {
+            if (!jogoRodando) return;
+
+            if (e.key === 'ArrowLeft' && posicaoCarro > 25) {
+                posicaoCarro -= 22;
+            }
+            if (e.key === 'ArrowRight' && posicaoCarro < 325) {
+                posicaoCarro += 22;
+            }
+            carro.style.left = posicaoCarro + 'px';
+        });
+
+        // Criar obstáculo com posição segura (não sai da estrada nem sobrepõe outro)
+        function criarObstaculo() {
+            if (!jogoRodando) return;
+
+            // Evita criar muitos obstáculos de uma vez
+            const agora = Date.now();
+            if (agora - ultimoObstaculo < 800) return;
+            ultimoObstaculo = agora;
+
+            // Posição válida: entre 20px e 330px para não sair da estrada
+            let posicaoX;
+            let posicaoValida = false;
+
+            // Garante que não cria em cima de outro obstáculo que já está aparecendo
+            while (!posicaoValida) {
+                posicaoX = Math.floor(Math.random() * 310) + 20;
+                posicaoValida = true;
+
+                for (let obs of obstaculos) {
+                    const obsEsq = parseInt(obs.style.left);
+                    // Se a distância for menor que 60px, está muito perto
+                    if (Math.abs(posicaoX - obsEsq) < 60) {
+                        posicaoValida = false;
+                        break;
+                    }
+                }
+            }
+
+            // Cria o obstáculo
+            const obstaculo = document.createElement('div');
+            obstaculo.classList.add('obstaculo');
+            obstaculo.style.left = posicaoX + 'px';
+            obstaculo.style.backgroundColor = coresObstaculos[Math.floor(Math.random() * coresObstaculos.length)];
+            obstaculo.style.top = '-80px';
+
+            estrada.appendChild(obstaculo);
+            obstaculos.push(obstaculo);
+        }
+
+        // Atualizar posição dos obstáculos (movimento suave sem travar)
+        function atualizarObstaculos() {
+            for (let i = obstaculos.length - 1; i >= 0; i--) {
+                const obstaculo = obstaculos[i];
+                let posicaoAtual = parseInt(obstaculo.style.top);
+                posicaoAtual += velocidadeJogo;
+                obstaculo.style.top = posicaoAtual + 'px';
+
+                // Remove obstáculo que saiu da tela e soma pontos
+                if (posicaoAtual > 600) {
+                    obstaculo.remove();
+                    obstaculos.splice(i, 1);
+                    pontuacao += 10;
+                    pontuacaoEl.textContent = pontuacao;
+
+                    // Aumenta meta e velocidade ao bater a meta
+                    if (pontuacao >= meta) {
+                        meta += 100;
+                        metaEl.textContent = meta;
+                        velocidadeJogo += 0.8; // Aumenta velocidade gradualmente
+                    }
+                    continue;
+                }
+
+                // Verifica colisão
+                if (verificarColisao(obstaculo)) {
+                    jogoRodando = false;
+                    textoMensagemEl.textContent = `Você bateu! Pontuação: ${pontuacao}`;
+                    mensagemEl.style.display = 'block';
+                    return;
+                }
+            }
+        }
+
+        // Verificação de colisão 100% correta
+        function verificarColisao(obstaculo) {
+            const carroEsq = posicaoCarro;
+            const carroDir = posicaoCarro + 50;
+            const carroTopo = 500; // Posição fixa do carro na tela
+            const carroBase = 580;
+
+            const obsEsq = parseInt(obstaculo.style.left);
+            const obsDir = obsEsq + 50;
+            const obsTopo = parseInt(obstaculo.style.top);
+            const obsBase = obsTopo + 80;
+
+            // Verifica se há sobreposição total
+            return (
+                carroEsq < obsDir &&
+                carroDir > obsEsq &&
+                carroTopo < obsBase &&
+                carroBase > obsTopo
+            );
+        }
+
+        // Reiniciar jogo completamente sem deixar restos
+        function reiniciarJogo() {
+            // Resetar todas as variáveis
+            pontuacao = 0;
+            meta = 100;
+            velocidadeJogo = 6;
+            posicaoCarro = 175;
+            jogoRodando = true;
+            ultimoObstaculo = 0;
+
+            // Atualiza interface
+            pontuacaoEl.textContent = pontuacao;
+            metaEl.textContent = meta;
+            carro.style.left = posicaoCarro + 'px';
+            mensagemEl.style.display = 'none';
+
+            // Remove todos os obstáculos existentes
+            obstaculos.forEach(obs => obs.remove());
+            obstaculos = [];
+        }
+
+        // Loop do jogo estável e sem bugs
+        function loopJogo() {
+            if (jogoRodando) {
+                atualizarObstaculos();
+                // Cria obstáculo em intervalos regulares
+                if (Math.random() < 0.045) {
+                    criarObstaculo();
+                }
+            }
+
+            requestAnimationFrame(loopJogo);
+        }
+
+        // Inicia o jogo
+        loopJogo();
+    </script>
+</body>
+</html>
