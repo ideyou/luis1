@@ -38,11 +38,11 @@ body{
 }
 
 /* utilitarios de Espaçamento */
-.p-1{padding: 1rem!important;}
-.p-2{padding: 2rem!important;}
-.p-3{padding: 3rem!important;}
-.p-4{padding: 4rem!important;}
-.p-5{padding: 5rem!important;}
+.p-1 { padding: 1rem !important; } 
+.p-2 { padding: 2rem !important; }
+.p-3 { padding: 3rem !important; }
+.p-4 { padding: 4rem !important; }
+.p-5 { padding: 5rem !important; }
 
 /* Cores de Texto e Midia */
 .text-branco{color: #fff !important; }
@@ -68,7 +68,7 @@ body{
     box-sizing: border-box;
 }
 
-.col-1 {width: 8.333%; }
+.col-1{width: 8.333%; }
 .col-2{width: 16.666%; }
 .col-3{width: 25%; }
 .col-4{width: 33.333%; }
